@@ -68,15 +68,23 @@ ASGI_APPLICATION = 'spug.routing.application'
 DATABASES = {
     'default': {
         'ATOMIC_REQUESTS': True,
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'spug',
+        'USER': 'root',  # 修改为外部数据库的用户
+        'PASSWORD': '123456',  # 修改为外部数据的用户密码
+        'HOST': 'localhost',    # 修改为外部数据的ip
+        'PORT': '3306',    # 修改为外部数据的应用端口
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+            'sql_mode': 'STRICT_TRANS_TABLES',
+        }
     }
 }
 
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": "redis://10.0.2.251:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
@@ -87,7 +95,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [("10.0.2.251", 6379)],
             "capacity": 1000,
             "expiry": 120,
         },
